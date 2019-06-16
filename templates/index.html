@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <div class="jumbotron">
+    <h1 class="display-3">Добро пожаловать на игру!</h1>
+    <p class="lead">Это простая игра, где Вам предстоит угадать оригинальность цитаты из произведений Джеймса Джойса</p>
+    <hr class="my-4">
+    <p>Правила довольно просты. Если хотите узнать подробности, перейдите на страницу с подробным перечнем правил.</p>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href={{ url_for('rules') }} role="button">Узнать больше</a>
+    </p>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <div class="">
+    <form action={{ url_for('quiz') }}>
+      <fieldset>
+        <legend>Немного информации о Вас</legend>
+        <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+          <div class="card text-white bg-primary mb-3" style="width: 33%;">
+            <div class="card-header">Обязательное поле</div>
+            <div class="card-body">
+              <label class="col-form-label card-title" for="userName">Ваше имя</label>
+              <input
+                type="text"
+                required oninvalid="this.setCustomValidity('Поле обязательно для заполнения')"
+                oninput="setCustomValidity('')"
+                class="form-control" name="userName" value="{{ userName }}"
+                placeholder="Имя" id="userName"
+              >
+            </div>
+          </div>
+          <div class="card text-white bg-secondary mb-3" style="width: 33%;">
+            <div class="card-header">Необязательное поле</div>
+            <div class="card-body">
+              <label class="col-form-label card-title" for="userCity">Откуда Вы?</label>
+              <input type="text" class="form-control" name="userCity" value="{{ userCity }}" placeholder="Город" id="userCity">
+            </div>
+          </div>
+          <div class="card text-white bg-secondary mb-3" style="width: 33%;">
+            <div class="card-header">Необязательное поле</div>
+            <div class="card-body">
+              <label class="col-form-label card-title" for="userEdu">Образование</label>
+              <select type="text" class="form-control" name="userEdu" id="userEdu">
+                <option selected value> -- Выберите пункт -- </option>
+                <option>Среднее</option>
+                <option>Среднее специальное</option>
+                <option>Неоконченное высшее</option>
+                <option>Высшее</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+          <div class="card text-white bg-primary mb-3" style="width: 33%;">
+            <div class="card-header">Обязательное поле</div>
+            <div class="card-body">
+              <label class="col-form-label card-title" for="userGen">Ваш пол</label>
+              <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+                <div class="custom-control custom-radio col-sm-2">
+                  <input type="radio" id="male" name="userGen" value='male' class="custom-control-input" checked="">
+                  <label class="custom-control-label" for="male">М</label>
+                </div>
+                <div class="custom-control custom-radio col-sm-2">
+                  <input type="radio" id="female" name="userGen" value='female' class="custom-control-input">
+                  <label class="custom-control-label" for="female">Ж</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card text-white bg-primary mb-3" style="width: 33%;">
+            <div class="card-header">Обязательное поле</div>
+            <div class="card-body">
+              <label class="col-form-label card-title" for="userAge">Ваш возраст</label>
+              <select
+                type="text"
+                required oninvalid="this.setCustomValidity('Поле обязательно для заполнения')"
+                oninput="setCustomValidity('')"
+                class="form-control" name="userAge" id="userAge"
+              >
+                <option selected value> -- Выберите пункт -- </option>
+                <option>Меньше 18</option>
+                <option>18-25</option>
+                <option>26-40</option>
+                <option>41-60</option>
+                <option>Больше 60</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Начать игру</button>
+      </fieldset>
+    </form>
+  </div>
+{% endblock %}
