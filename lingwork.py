@@ -9,16 +9,20 @@ from pymorphy2 import MorphAnalyzer
 morph = MorphAnalyzer()
 
 m = 'ruscorpora_mystem_cbow_300_2_2015.bin.gz'
-getpost.dowload_model(m)  # загружаем модель
+model = None
 
-if m.endswith('.vec.gz'):
-    model = gensim.models.KeyedVectors.load_word2vec_format(
-        'static/' + m, binary=False)
-elif m.endswith('.bin.gz'):
-    model = gensim.models.KeyedVectors.load_word2vec_format(
-        'static/' + m, binary=True)
-else:
-    model = gensim.models.KeyedVectors.load(m)
+
+def get_model():
+    getpost.dowload_model(m)  # загружаем модель
+
+    if m.endswith('.vec.gz'):
+        model = gensim.models.KeyedVectors.load_word2vec_format(
+            'static/' + m, binary=False)
+    elif m.endswith('.bin.gz'):
+        model = gensim.models.KeyedVectors.load_word2vec_format(
+            'static/' + m, binary=True)
+    else:
+        model = gensim.models.KeyedVectors.load(m)
 
 
 def split_book(phrase):
