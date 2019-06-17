@@ -79,3 +79,30 @@ def save_to_database(user, db_name=''):
 
     connection.commit()
     connection.close()
+
+
+def get_data(db_name=''):
+    result = []
+    connection = sqlite3.connect(db_folder + db_name)
+    c = connection.cursor()
+
+    words = []
+    for row in c.execute("SELECT * FROM " + table):
+        name = row[0]
+        city = row[1]
+        edu = row[2]
+        gen = row[3]
+        age = row[4]
+        cor = row[5]
+        wrn = row[6]
+        result.append({
+            'name': name,
+            'city': city,
+            'edu': edu,
+            'gen': gen,
+            'age': age,
+            'correct': cor,
+            'wrong': wrn
+        })
+
+    return result
