@@ -1,13 +1,43 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
   <div class="container-fluid bg-4 text-center">
-    <h3 class="margin">Результаты</h3>
+    <h3 class="margin">Поздравляем! Вы завершили тест. Ваши результаты</h3>
   </div>
-
 {% endblock %}
 
 {% block content %}
-  
+  <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+    <div class="card text-white bg-danger mb-3" style="width: 49%;">
+      <div class="card-header">Результаты</div>
+      <div class="card-body">
+        <h4 class="card-title">Ошибки</h4>
+        <p class="card-text">Вы дали {{ wrongAn }} неверных ответов</p>
+      </div>
+    </div>
+    <div class="card text-white bg-success mb-3" style="width: 49%; margin-left: 20px;">
+      <div class="card-header">Результаты</div>
+      <div class="card-body">
+        <h4 class="card-title">Правильные ответы</h4>
+        <p class="card-text"> Вы дали {{ correctAn }} правильных ответов </p>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+    <div class="card border-info mb-3" style="width: 49%;">
+      <div class="card-header">Сессия</div>
+      <div class="card-body">
+        <h4 class="card-title">Сгенерированные</h4>
+        <p class="card-text"> В вашей игре было {{ genCount }} сгенерированных кодом цитат</p>
+      </div>
+    </div>
+    <div class="card border-info mb-3" style="width: 49%; margin-left: 20px;">
+      <div class="card-header">Сессия</div>
+      <div class="card-body">
+        <h4 class="card-title">Оригинальные</h4>
+        <p class="card-text"> В вашей игре было {{ origCount }} оригинальных цитат </p>
+      </div>
+    </div>
+  </div>
+  <p class="text-info">Возможно Вас заинтересует! На сайте можно посмотреть общую статистику ответов <a href={{ url_for('stat') }}>по этой ссылке</a></p>
 {% endblock %}

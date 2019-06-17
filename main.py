@@ -27,6 +27,9 @@ db = 'users.db'
 
 currentUser = {}
 finalQuotes = []
+qCount = 15
+qGenerated = 0
+qOriginal = 0
 
 
 quotes = getpost.download_quotes(q)     # загружаем цитаты
@@ -45,6 +48,8 @@ def rules():
 
 @app.route('/quiz')
 def quiz():
+    global qGenerated
+    global qOriginal
     # получаем данные, которые пользователь указал о себе
     currentUser['userName'] = request.args['userName']
     currentUser['userGen'] = request.args['userGen']
@@ -61,14 +66,14 @@ def quiz():
         currentUser['userEdu'] = ''
 
     # подбор и генерация цитат
-    count = 15
-    rands = random.sample(range(len(quotes)), count)
+    finalQuotes.clear()
+    rands = random.sample(range(len(quotes)), qCount)
     selection = []
     for r in rands:
         selection.append(quotes[r])
 
-    generated = random.randint(count / 3, count * 2 / 3)
-    rands = random.sample(range(count), generated)
+    qGenerated = random.randint(qCount / 3, qCount * 2 / 3)
+    rands = random.sample(range(qCount), qGenerated)
     index = 0
     for sel in selection:
         splited = lingwork.split_book(sel)
@@ -78,16 +83,29 @@ def quiz():
 
     for randed in rands:
         finalQuotes[randed] = lingwork.change_quote(finalQuotes[randed])
-    original = count - generated
+    qOriginal = qCount - qGenerated
 
-    return render_template('quiz.html', genCount=generated, origCount=original,
+    return render_template('quiz.html', genCount=qGenerated, origCount=qOriginal,
                            quotes=finalQuotes)
 
 
 @app.route('/result')
 def result():
+    wrongAn = 0
+    correctAn = 0
+    for q in finalQuotes:
+        if q['key'] in request.args:
+            origAn = request.args[q['key']] == 'original'
+            if q['original'] == origAn:
+                correctAn += 1
+            else:
+                wrongAn += 1
+
+    currentUser['userCor'] = correctAn
+    currentUser['userIncor'] = wrongAn
     getpost.save_to_database(currentUser, db)
-    return render_template('result.html')
+    return render_template('result.html', wrongAn=wrongAn, correctAn=correctAn,
+                           genCount=qGenerated, origCount=qOriginal)
 
 
 @app.route('/stat')
