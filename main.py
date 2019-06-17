@@ -43,7 +43,7 @@ def index():
 
 @app.route('/rules')
 def rules():
-    return render_template('rules.html')
+    return render_template('rules.html', qCount=qCount)
 
 
 @app.route('/quiz')
@@ -110,8 +110,38 @@ def result():
 
 @app.route('/stat')
 def stat():
-    return render_template('stat.html')
+    data = getpost.get_data(db)
+    allUsers = len(data)
+    allCorr = 0
+    allWron = 0
+    coolUsers = 0
+    agePc = 0
+    ages = {'Меньше 18': 0, '18-25': 0, '26-40': 0, '41-60': 0, 'Больше 60': 0}
+
+    for user in data:
+        ages[user['age']] += 1
+        allCorr += user['correct']
+        allWron += user['wrong']
+
+        questions = user['correct'] + user['wrong']
+        if round((user['correct'] * 100.0) / questions, 1) > 50:
+            coolUsers += 1
+
+    print('ages:', ages)
+    list_d = list(ages.items())
+    list_d.sort(key=lambda i: i[1], reverse=True)
+    agePc = list_d[0][0]
+
+    allAn = allCorr + allWron
+    pcCorr = round((allCorr * 100.0) / allAn, 1)
+    pcWron = round((allWron * 100.0) / allAn, 1)
+
+    return render_template('stat.html', allUsers=allUsers, allCorr=allCorr,
+                           allWron=allWron, pcCorr=pcCorr, pcWron=pcWron,
+                           coolUsers=coolUsers, agePc=agePc)
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)

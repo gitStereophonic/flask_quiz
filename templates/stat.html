@@ -1,9 +1,48 @@
 {% extends 'base.html' %}
 
 {% block header %}
-
+  <div class="container-fluid bg-4 text-center">
+    <h3 class="margin">Статистика ответов</h3>
+  </div>
 {% endblock %}
 
 {% block content %}
-
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Параметр</th>
+        <th scope="col">Данные</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="table-secondary">
+        <th scope="row">Общее число пользователей</th>
+        <td>{{ allUsers }}</td>
+      </tr>
+      <tr class="table-success">
+        <th scope="row">Общее количество правильных ответов</th>
+        <td>{{ allCorr }}</td>
+      </tr>
+      <tr class="table-danger">
+        <th scope="row">Общее количество неправильных ответов</th>
+        <td>{{ allWron }}</td>
+      </tr>
+      <tr class="table-success">
+        <th scope="row">Процент правильных ответов</th>
+        <td>{{ pcCorr }}%</td>
+      </tr>
+      <tr class="table-danger">
+        <th scope="row">Процент неправильных ответов</th>
+        <td>{{ pcWron }}%</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Количество пользователей давших более 50% правильных ответов</th>
+        <td>{{ coolUsers }}</td>
+      </tr>
+      <tr class="table-secondary">
+        <th scope="row">Самая активная возрастная категория</th>
+        <td>{{ agePc }}</td>
+      </tr>
+    </tbody>
+  </table>
 {% endblock %}
