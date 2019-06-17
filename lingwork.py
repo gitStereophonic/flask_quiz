@@ -11,21 +11,11 @@ morph = MorphAnalyzer()
 m = 'ruscorpora_mystem_cbow_300_2_2015.bin.gz'
 model = None
 
+# getpost.dowload_model(m)  # загружаем модель
 
-def get_model():
-    global model
-    getpost.dowload_model(m)  # загружаем модель
-
-    if m.endswith('.vec.gz'):
-        model = gensim.models.KeyedVectors.load_word2vec_format(
-            'static/' + m, binary=False)
-    elif m.endswith('.bin.gz'):
-        model = gensim.models.KeyedVectors.load_word2vec_format(
-            'static/' + m, binary=True)
-    else:
-        model = gensim.models.KeyedVectors.load(m)
-
-    print('Model loaded')
+model = gensim.models.KeyedVectors.load_word2vec_format(
+    "http://rusvectores.org/static/models"
+    "/rusvectores2/" + m, binary=True)
 
 
 def split_book(phrase):

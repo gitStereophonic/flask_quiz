@@ -20,8 +20,8 @@ from threading import Thread
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-t1 = Thread(target=lingwork.get_model)
-t1.start()
+#t1 = Thread(target=lingwork.get_model)
+# t1.start()
 
 quotes = []
 
