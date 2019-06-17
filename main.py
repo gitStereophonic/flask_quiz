@@ -6,15 +6,15 @@
 #   word2vec. В конце показывает результат пользователя и статистику
 #   правильных ответов.
 
-import gensim
 import os
+import random
 import urllib
 
 import getpost
+import lingwork
 
 from flask import Flask
 from flask import redirect, url_for, render_template, request
-from pymystem3 import Mystem
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -22,25 +22,15 @@ app.config['JSON_AS_ASCII'] = False
 model = None
 quotes = []
 
-m = 'ruscorpora_mystem_cbow_300_2_2015.bin.gz'
 q = 'static/quotes'
 db = 'users.db'
 
 currentUser = {}
+finalQuotes = []
 
 
-getpost.dowload_model(m)                # загружаем модель
 quotes = getpost.download_quotes(q)     # загружаем цитаты
 getpost.create_database(db)             # создаем базу данных
-
-if m.endswith('.vec.gz'):
-    model = gensim.models.KeyedVectors.load_word2vec_format(
-        'static/' + m, binary=False)
-elif m.endswith('.bin.gz'):
-    model = gensim.models.KeyedVectors.load_word2vec_format(
-        'static/' + m, binary=True)
-else:
-    model = gensim.models.KeyedVectors.load(m)
 
 
 @app.route('/')
@@ -70,13 +60,33 @@ def quiz():
     else:
         currentUser['userEdu'] = ''
 
-    print(currentUser)
-    getpost.save_to_database(currentUser, db)
-    return render_template('quiz.html')
+    # подбор и генерация цитат
+    count = 15
+    rands = random.sample(range(len(quotes)), count)
+    selection = []
+    for r in rands:
+        selection.append(quotes[r])
+
+    generated = random.randint(count / 3, count * 2 / 3)
+    rands = random.sample(range(count), generated)
+    index = 0
+    for sel in selection:
+        splited = lingwork.split_book(sel)
+        splited['key'] = 'quote_' + str(index)
+        finalQuotes.append(splited)
+        index += 1
+
+    for randed in rands:
+        finalQuotes[randed] = lingwork.change_quote(finalQuotes[randed])
+    original = count - generated
+
+    return render_template('quiz.html', genCount=generated, origCount=original,
+                           quotes=finalQuotes)
 
 
 @app.route('/result')
 def result():
+    getpost.save_to_database(currentUser, db)
     return render_template('result.html')
 
 
