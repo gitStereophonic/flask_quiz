@@ -6,7 +6,6 @@
 #   word2vec. В конце показывает результат пользователя и статистику
 #   правильных ответов.
 
-from threading import Thread
 import os
 import random
 import urllib
@@ -39,8 +38,6 @@ getpost.create_database(db)             # создаем базу данных
 
 @app.route('/')
 def index():
-    t1 = Thread(target=lingwork.get_model)
-    t1.start()
     return render_template('index.html')
 
 
@@ -115,6 +112,8 @@ def result():
 def stat():
     data = getpost.get_data(db)
     allUsers = len(data)
+    if allUsers == 0:
+        return render_template('stat.html', allUsers=allUsers)
     allCorr = 0
     allWron = 0
     coolUsers = 0
