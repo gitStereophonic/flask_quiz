@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <div class="card border-warning mb-3" style="max-width: 30rem;">
-    <div class="card-header">Старт</div>
-    <div class="card-body">
-      <h4 class="card-title">Игра началась</h4>
-      <p class="card-text">Постарайтесь отличить оригинальные цитаты Джеймса Джойса от машинных</p>
+  <div class="form-group row" style="margin-left: 0; margin-right: 0;">
+    <div class="card border-warning mb-3" style="max-width: 30rem;">
+      <div class="card-header">Старт</div>
+      <div class="card-body">
+        <h4 class="card-title">Игра началась</h4>
+        <p class="card-text">Постарайтесь отличить оригинальные цитаты Джеймса Джойса от сгенерированных кодом</p>
+      </div>
+    </div>
+    <div class="card border-info mb-3" style="max-width: 30rem; margin-left: 20px;">
+      <div class="card-header">Подсказка</div>
+      <div class="card-body">
+        <h4 class="card-title">В текущей подборке:</h4>
+        <p class="card-text"> {{ genCount }} сгенерированных и {{ origCount }} оригинальных цитат </p>
+      </div>
     </div>
   </div>
 {% endblock %}
