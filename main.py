@@ -20,7 +20,7 @@ from threading import Thread
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
 
-#t1 = Thread(target=lingwork.get_model)
+# t1 = Thread(target=lingwork.get_model)
 # t1.start()
 
 quotes = []
@@ -88,8 +88,8 @@ def quiz():
         finalQuotes[randed] = lingwork.change_quote(finalQuotes[randed])
     qOriginal = qCount - qGenerated
 
-    return render_template('quiz.html', genCount=qGenerated, origCount=qOriginal,
-                           quotes=finalQuotes)
+    return render_template('quiz.html', genCount=qGenerated,
+                           origCount=qOriginal, quotes=finalQuotes)
 
 
 @app.route('/result')

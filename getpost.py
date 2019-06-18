@@ -3,7 +3,6 @@ import urllib
 import sqlite3
 import os
 
-
 table = 'users'
 db_folder = 'db/'
 pbar = None
@@ -38,6 +37,7 @@ def dowload_model(name):
         print('Download Completed!')
 
 
+# функция для загрузки исходных данных
 def download_quotes(file):
     if not os.path.exists(file):
         return []
@@ -48,6 +48,7 @@ def download_quotes(file):
     return quotes
 
 
+# создание новой базы данных, если ее нет
 def create_database(db_name=''):
     db_path = db_folder + db_name
     if not os.path.exists(db_path):
@@ -66,6 +67,7 @@ def create_database(db_name=''):
         connection.close()
 
 
+# сохранение результатов пользователя в базу данных
 def save_to_database(user, db_name=''):
     connection = sqlite3.connect(db_folder + db_name)
     c = connection.cursor()
@@ -81,6 +83,7 @@ def save_to_database(user, db_name=''):
     connection.close()
 
 
+# загрузка всех данных из базы данных для статистических подсчетов
 def get_data(db_name=''):
     result = []
     connection = sqlite3.connect(db_folder + db_name)
