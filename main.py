@@ -15,13 +15,9 @@ import lingwork
 
 from flask import Flask
 from flask import redirect, url_for, render_template, request
-from threading import Thread
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
-
-# t1 = Thread(target=lingwork.get_model)
-# t1.start()
 
 quotes = []
 
